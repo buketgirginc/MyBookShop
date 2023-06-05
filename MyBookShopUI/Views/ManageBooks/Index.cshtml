@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MyBookShopService.Models.BookDTO>
+
+	<h2>
+		Kitaplar
+	</h2>
+
+	<p>
+	<a asp-action="Create" class="btn btn-primary">Yeni Kitap Ekle</a>
+	</p>
+
+@if (TempData["success"] != null)
+{
+	@section Scripts{
+	<script>
+		toastr.success('@TempData["success"]');
+	</script>
+            }
+
+}
+
+@if (TempData["error"] != null)
+{
+	@section Scripts{
+	<script>
+		toastr.error('@TempData["error"]');
+	</script>
+            }
+}
+
+Merhaba @TempData["user"]
+
+	<table class="table table-bordered">
+		<tr>
+		    <th>Adı</th>
+			<th>Yazar</th>
+			<th>Fiyat</th>
+			<th>Kategori</th>
+		</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.BookName</td>
+			<td>@item.AuthorName</td>
+			<td>@item.Price</td>
+			<td>@item.GenreName</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Düzenle</a>
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+			</td>
+		</tr>
+	}
+	</table>

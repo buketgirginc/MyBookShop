@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Order>
+@{
+}
+<div style="width:100%" class="mt-2">
+    <a href="/Identity/Account/Manage" class="btn btn-primary my-2">Geri Dön</a>
+
+    <h4>Siparişlerim</h4>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>Sipariş Tarihi</th>
+                <th>Sipariş Durumu</th>
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.CreateDate.ToString("dd-MM-yyyy")</td>
+                    <td>@order.OrderStatus.StatusName</td>
+                </tr>
+                @if (order.OrderDetail != null && order.OrderDetail.Count > 0)
+                {
+                    <tr>
+                        <td>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>
+                                        <b>Toplam:</b>
+                                    </td>
+                                    <td>
+                                        @(order.OrderDetail.Select(item => item.Book.Price * item.Quantity).Sum()) TL
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Kitap</th>
+                                    <th>Kategori</th>
+                                    <th>Birim Fiyatı (TL)</th>
+                                    <th>Toplam Fiyat</th>
+                                </tr>
+                                @foreach (var item in order.OrderDetail)
+                                {
+                                    <tr>
+                                        <td>@item.Book.BookName</td>
+                                        <td>@item.Book.Genre.GenreName</td>
+                                        <td>@item.Book.Price X @item.Quantity</td>
+                                        <td> @(item.Book.Price * item.Quantity) </td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+    }
+    else
+    {
+        <h5>Sipariş bulunamadı.</h5>
+    }
+</div>
+
+
